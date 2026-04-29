@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gelgör Cağ Kebap – İstanbul | 1982'den Beri</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ember: #C9420F;
+    --coal: #1A1109;
+    --ash: #2E2015;
+    --bone: #F2EAD9;
+    --cream: #FAF5EC;
+    --gold: #D4933A;
+    --smoke: #8B7355;
+  }
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+font-family: ‘Crimson Pro’, serif;
+background: var(–coal);
+color: var(–bone);
+overflow-x: hidden;
+cursor: none;
+}
+
+/* Custom cursor */
+.cursor {
+width: 12px; height: 12px;
+background: var(–ember);
+border-radius: 50%;
+position: fixed; top: 0; left: 0;
+pointer-events: none;
+z-index: 9999;
+transition: transform 0.15s ease;
+mix-blend-mode: screen;
+}
+.cursor-ring {
+width: 36px; height: 36px;
+border: 1px solid rgba(201,66,15,0.5);
+border-radius: 50%;
+position: fixed; top: 0; left: 0;
+pointer-events: none;
+z-index: 9998;
+transition: transform 0.4s ease, width 0.3s, height 0.3s, border-color 0.3s;
+}
+
+/* NAV */
+nav {
+position: fixed; top: 0; left: 0; right: 0;
+z-index: 100;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 1.5rem 4rem;
+background: linear-gradient(to bottom, rgba(26,17,9,0.95), transparent);
+backdrop-filter: blur(0px);
+transition: background 0.4s;
+}
+nav.scrolled {
+background: rgba(26,17,9,0.97);
+backdrop-filter: blur(12px);
+border-bottom: 1px solid rgba(212,147,58,0.15);
+}
+.nav-logo {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.5rem;
+font-weight: 900;
+letter-spacing: 0.05em;
+color: var(–bone);
+text-decoration: none;
+}
+.nav-logo span { color: var(–ember); }
+.nav-links {
+display: flex; gap: 2.5rem;
+list-style: none;
+}
+.nav-links a {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.72rem;
+letter-spacing: 0.18em;
+text-transform: uppercase;
+color: var(–smoke);
+text-decoration: none;
+transition: color 0.25s;
+}
+.nav-links a:hover { color: var(–gold); }
+.nav-cta {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.72rem;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+border: 1px solid var(–ember);
+color: var(–ember);
+padding: 0.6rem 1.4rem;
+text-decoration: none;
+transition: all 0.3s;
+}
+.nav-cta:hover { background: var(–ember); color: var(–bone); }
+
+/* HERO */
+#hero {
+height: 100vh;
+position: relative;
+display: flex;
+flex-direction: column;
+justify-content: flex-end;
+padding: 0 4rem 6rem;
+overflow: hidden;
+}
+.hero-bg {
+position: absolute; inset: 0;
+background:
+radial-gradient(ellipse 60% 50% at 70% 50%, rgba(201,66,15,0.18) 0%, transparent 70%),
+radial-gradient(ellipse 40% 80% at 20% 80%, rgba(212,147,58,0.08) 0%, transparent 60%),
+linear-gradient(160deg, #0D0A06 0%, #1A1109 40%, #251508 100%);
+}
+/* Animated flame particles */
+.flame-field {
+position: absolute; inset: 0;
+overflow: hidden;
+pointer-events: none;
+}
+.spark {
+position: absolute;
+width: 2px;
+border-radius: 50%;
+animation: rise linear infinite;
+opacity: 0;
+}
+@keyframes rise {
+0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.8; }
+50% { opacity: 0.4; }
+100% { transform: translateY(-120vh) translateX(var(–drift)) scale(0.1); opacity: 0; }
+}
+
+.hero-eyebrow {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.7rem;
+letter-spacing: 0.3em;
+text-transform: uppercase;
+color: var(–gold);
+margin-bottom: 1.5rem;
+opacity: 0;
+animation: fadeUp 0.8s ease 0.3s forwards;
+}
+.hero-title {
+font-family: ‘Playfair Display’, serif;
+font-size: clamp(4rem, 9vw, 10rem);
+font-weight: 900;
+line-height: 0.9;
+color: var(–bone);
+opacity: 0;
+animation: fadeUp 0.9s ease 0.5s forwards;
+}
+.hero-title em {
+font-style: italic;
+color: var(–ember);
+display: block;
+}
+.hero-sub {
+font-size: clamp(1.1rem, 2vw, 1.4rem);
+font-weight: 300;
+color: var(–smoke);
+max-width: 38rem;
+line-height: 1.7;
+margin-top: 1.5rem;
+opacity: 0;
+animation: fadeUp 0.9s ease 0.7s forwards;
+}
+.hero-actions {
+display: flex; gap: 1.5rem; align-items: center;
+margin-top: 2.5rem;
+opacity: 0;
+animation: fadeUp 0.9s ease 0.9s forwards;
+}
+.btn-primary {
+background: var(–ember);
+color: var(–bone);
+padding: 1rem 2.5rem;
+font-family: ‘DM Mono’, monospace;
+font-size: 0.78rem;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+text-decoration: none;
+transition: all 0.3s;
+position: relative;
+overflow: hidden;
+}
+.btn-primary::after {
+content: ‘’;
+position: absolute; inset: 0;
+background: rgba(255,255,255,0.1);
+transform: scaleX(0);
+transform-origin: left;
+transition: transform 0.3s;
+}
+.btn-primary:hover::after { transform: scaleX(1); }
+.btn-outline {
+color: var(–bone);
+font-family: ‘DM Mono’, monospace;
+font-size: 0.78rem;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+text-decoration: none;
+border-bottom: 1px solid rgba(242,234,217,0.3);
+padding-bottom: 2px;
+transition: border-color 0.3s, color 0.3s;
+}
+.btn-outline:hover { color: var(–gold); border-color: var(–gold); }
+
+.hero-year {
+position: absolute;
+right: 4rem; bottom: 6rem;
+font-family: ‘Playfair Display’, serif;
+font-size: 10rem;
+font-weight: 900;
+color: rgba(242,234,217,0.03);
+line-height: 1;
+user-select: none;
+opacity: 0;
+animation: fadeIn 1.2s ease 1.2s forwards;
+}
+
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(30px); }
+to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+from { opacity: 0; }
+to { opacity: 1; }
+}
+
+/* DIVIDER */
+.divider {
+display: flex;
+align-items: center;
+gap: 1.5rem;
+padding: 3rem 4rem;
+}
+.divider-line {
+flex: 1;
+height: 1px;
+background: linear-gradient(to right, transparent, rgba(212,147,58,0.3), transparent);
+}
+.divider-icon {
+font-size: 1.2rem;
+color: var(–gold);
+opacity: 0.6;
+}
+
+/* STORY */
+#story {
+padding: 8rem 4rem;
+display: grid;
+grid-template-columns: 1fr 1.2fr;
+gap: 8rem;
+align-items: center;
+position: relative;
+}
+#story::before {
+content: ‘’;
+position: absolute;
+left: -10rem; top: 50%;
+width: 30rem; height: 30rem;
+transform: translateY(-50%);
+background: radial-gradient(circle, rgba(201,66,15,0.06) 0%, transparent 70%);
+pointer-events: none;
+}
+.story-label {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.68rem;
+letter-spacing: 0.3em;
+text-transform: uppercase;
+color: var(–ember);
+margin-bottom: 1.5rem;
+}
+.story-title {
+font-family: ‘Playfair Display’, serif;
+font-size: clamp(2.5rem, 4vw, 4rem);
+font-weight: 700;
+line-height: 1.1;
+margin-bottom: 2rem;
+}
+.story-title em { font-style: italic; color: var(–gold); }
+.story-text {
+font-size: 1.15rem;
+line-height: 1.85;
+color: rgba(242,234,217,0.75);
+font-weight: 300;
+margin-bottom: 1.5rem;
+}
+.story-stats {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 2rem;
+margin-top: 3rem;
+padding-top: 3rem;
+border-top: 1px solid rgba(212,147,58,0.15);
+}
+.stat-num {
+font-family: ‘Playfair Display’, serif;
+font-size: 3rem;
+font-weight: 900;
+color: var(–ember);
+line-height: 1;
+}
+.stat-label {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.65rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(–smoke);
+margin-top: 0.4rem;
+}
+.story-visual {
+position: relative;
+height: 600px;
+}
+.visual-card {
+position: absolute;
+border: 1px solid rgba(212,147,58,0.2);
+overflow: hidden;
+}
+.visual-card-main {
+width: 100%; height: 500px;
+top: 0; right: 0;
+background:
+linear-gradient(160deg, #2E1A0A 0%, #1A1109 100%);
+display: flex;
+align-items: center;
+justify-content: center;
+}
+.kebap-illustration {
+width: 220px; height: 220px;
+position: relative;
+}
+/* SVG kebap skewer illustration */
+.visual-card-accent {
+width: 200px;
+bottom: 0; left: -2rem;
+padding: 1.8rem;
+background: var(–ash);
+border: 1px solid rgba(212,147,58,0.25);
+}
+.accent-quote {
+font-family: ‘Playfair Display’, serif;
+font-size: 1rem;
+font-style: italic;
+color: var(–bone);
+line-height: 1.6;
+}
+.accent-author {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.6rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(–gold);
+margin-top: 0.8rem;
+}
+
+/* MENU */
+#menu {
+padding: 8rem 4rem;
+background: var(–ash);
+position: relative;
+overflow: hidden;
+}
+#menu::before {
+content: ‘MENÜ’;
+position: absolute;
+font-family: ‘Playfair Display’, serif;
+font-size: 18rem;
+font-weight: 900;
+color: rgba(255,255,255,0.02);
+top: 50%; left: 50%;
+transform: translate(-50%,-50%);
+pointer-events: none;
+white-space: nowrap;
+user-select: none;
+}
+.section-header {
+text-align: center;
+margin-bottom: 5rem;
+}
+.section-header .label {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.68rem;
+letter-spacing: 0.35em;
+text-transform: uppercase;
+color: var(–ember);
+margin-bottom: 1rem;
+}
+.section-header h2 {
+font-family: ‘Playfair Display’, serif;
+font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+font-weight: 700;
+line-height: 1.1;
+}
+.section-header h2 em { font-style: italic; color: var(–gold); }
+
+.menu-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 2px;
+max-width: 1100px;
+margin: 0 auto;
+}
+.menu-item {
+background: var(–coal);
+padding: 3rem 2.5rem;
+position: relative;
+transition: background 0.35s;
+overflow: hidden;
+cursor: default;
+}
+.menu-item:hover { background: rgba(46,32,21,0.8); }
+.menu-item::after {
+content: ‘’;
+position: absolute;
+bottom: 0; left: 0; right: 0;
+height: 2px;
+background: var(–ember);
+transform: scaleX(0);
+transition: transform 0.35s ease;
+}
+.menu-item:hover::after { transform: scaleX(1); }
+.item-num {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.6rem;
+letter-spacing: 0.25em;
+color: var(–ember);
+margin-bottom: 1.5rem;
+}
+.item-name {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.5rem;
+font-weight: 700;
+margin-bottom: 0.8rem;
+color: var(–bone);
+}
+.item-desc {
+font-size: 0.95rem;
+color: rgba(139,115,85,0.9);
+line-height: 1.7;
+font-weight: 300;
+margin-bottom: 2rem;
+}
+.item-price {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.8rem;
+font-weight: 700;
+color: var(–gold);
+}
+.item-price span {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.7rem;
+color: var(–smoke);
+letter-spacing: 0.1em;
+margin-left: 0.4rem;
+}
+.menu-item.featured {
+background: linear-gradient(135deg, rgba(46,32,21,0.9), rgba(26,17,9,0.9));
+grid-column: 1 / -1;
+display: grid;
+grid-template-columns: 1fr 1fr 1fr;
+align-items: center;
+padding: 3rem;
+gap: 2rem;
+}
+.featured-badge {
+display: inline-block;
+background: var(–ember);
+color: var(–bone);
+font-family: ‘DM Mono’, monospace;
+font-size: 0.6rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+padding: 0.3rem 0.8rem;
+margin-bottom: 1rem;
+}
+
+/* LOCATIONS */
+#locations {
+padding: 8rem 4rem;
+position: relative;
+}
+.locations-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 3px;
+max-width: 1000px;
+margin: 4rem auto 0;
+}
+.location-card {
+background: var(–ash);
+padding: 3.5rem 3rem;
+position: relative;
+transition: background 0.3s;
+border: 1px solid rgba(212,147,58,0.08);
+}
+.location-card:hover { background: rgba(46,32,21,0.9); }
+.loc-tag {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.62rem;
+letter-spacing: 0.3em;
+text-transform: uppercase;
+color: var(–ember);
+margin-bottom: 1.5rem;
+}
+.loc-name {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.8rem;
+font-weight: 700;
+margin-bottom: 1rem;
+color: var(–bone);
+}
+.loc-address {
+font-size: 1rem;
+color: var(–smoke);
+line-height: 1.8;
+font-weight: 300;
+margin-bottom: 2rem;
+}
+.loc-hours {
+display: flex;
+flex-direction: column;
+gap: 0.4rem;
+margin-bottom: 2rem;
+padding-top: 1.5rem;
+border-top: 1px solid rgba(212,147,58,0.12);
+}
+.loc-hours-row {
+display: flex;
+justify-content: space-between;
+font-family: ‘DM Mono’, monospace;
+font-size: 0.7rem;
+letter-spacing: 0.08em;
+color: rgba(139,115,85,0.8);
+}
+.loc-hours-row .time { color: var(–bone); }
+.loc-phone {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.9rem;
+color: var(–gold);
+letter-spacing: 0.06em;
+}
+.loc-map-btn {
+display: inline-flex;
+align-items: center;
+gap: 0.5rem;
+font-family: ‘DM Mono’, monospace;
+font-size: 0.65rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(–smoke);
+text-decoration: none;
+border-bottom: 1px solid rgba(139,115,85,0.3);
+padding-bottom: 2px;
+margin-top: 1.5rem;
+transition: color 0.25s, border-color 0.25s;
+}
+.loc-map-btn:hover { color: var(–gold); border-color: var(–gold); }
+.loc-main-badge {
+position: absolute;
+top: 1.5rem; right: 1.5rem;
+background: rgba(201,66,15,0.15);
+border: 1px solid rgba(201,66,15,0.3);
+color: var(–ember);
+font-family: ‘DM Mono’, monospace;
+font-size: 0.58rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+padding: 0.3rem 0.7rem;
+}
+
+/* RESERVATION */
+#reservation {
+padding: 10rem 4rem;
+background: linear-gradient(135deg, var(–ash) 0%, var(–coal) 100%);
+text-align: center;
+position: relative;
+overflow: hidden;
+}
+#reservation::before {
+content: ‘’;
+position: absolute;
+top: 50%; left: 50%;
+transform: translate(-50%, -50%);
+width: 60vw; height: 60vw;
+border-radius: 50%;
+background: radial-gradient(circle, rgba(201,66,15,0.06) 0%, transparent 70%);
+pointer-events: none;
+}
+.res-label { font-family: ‘DM Mono’, monospace; font-size: 0.68rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(–ember); margin-bottom: 1.2rem; }
+.res-title { font-family: ‘Playfair Display’, serif; font-size: clamp(3rem, 5vw, 5.5rem); font-weight: 900; line-height: 1; margin-bottom: 1.5rem; }
+.res-title em { font-style: italic; color: var(–gold); display: block; }
+.res-sub { font-size: 1.15rem; color: var(–smoke); font-weight: 300; max-width: 32rem; margin: 0 auto 3.5rem; line-height: 1.7; }
+.res-form {
+display: flex;
+flex-direction: column;
+gap: 1.2rem;
+max-width: 480px;
+margin: 0 auto;
+text-align: left;
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.form-group {
+display: flex;
+flex-direction: column;
+gap: 0.5rem;
+}
+.form-group label {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.62rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(–smoke);
+}
+.form-group input, .form-group select {
+background: rgba(255,255,255,0.04);
+border: 1px solid rgba(212,147,58,0.2);
+color: var(–bone);
+padding: 0.9rem 1.1rem;
+font-family: ‘Crimson Pro’, serif;
+font-size: 1rem;
+outline: none;
+transition: border-color 0.3s;
+-webkit-appearance: none;
+}
+.form-group input::placeholder { color: rgba(139,115,85,0.5); }
+.form-group input:focus, .form-group select:focus { border-color: var(–ember); }
+.form-group select option { background: var(–coal); }
+.btn-submit {
+background: var(–ember);
+color: var(–bone);
+border: none;
+padding: 1.1rem 3rem;
+font-family: ‘DM Mono’, monospace;
+font-size: 0.78rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+cursor: pointer;
+transition: all 0.3s;
+align-self: center;
+margin-top: 0.5rem;
+}
+.btn-submit:hover { background: #a33508; }
+.hotline {
+margin-top: 3rem;
+font-family: ‘Playfair Display’, serif;
+font-size: 1rem;
+color: var(–smoke);
+}
+.hotline a {
+font-size: 2.5rem;
+font-weight: 900;
+color: var(–bone);
+text-decoration: none;
+letter-spacing: 0.05em;
+display: block;
+margin-top: 0.3rem;
+transition: color 0.3s;
+}
+.hotline a:hover { color: var(–gold); }
+
+/* FOOTER */
+footer {
+background: #100C06;
+padding: 4rem;
+border-top: 1px solid rgba(212,147,58,0.1);
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: wrap;
+gap: 2rem;
+}
+.footer-brand {
+font-family: ‘Playfair Display’, serif;
+font-size: 1.3rem;
+font-weight: 900;
+color: var(–bone);
+}
+.footer-brand span { color: var(–ember); }
+.footer-sub {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.6rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(–smoke);
+margin-top: 0.4rem;
+}
+.footer-social {
+display: flex;
+gap: 1.5rem;
+}
+.footer-social a {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.65rem;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+color: var(–smoke);
+text-decoration: none;
+transition: color 0.3s;
+}
+.footer-social a:hover { color: var(–gold); }
+.footer-copy {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.6rem;
+letter-spacing: 0.1em;
+color: rgba(139,115,85,0.4);
+}
+
+/* SCROLL REVEAL */
+.reveal {
+opacity: 0;
+transform: translateY(40px);
+transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+opacity: 1;
+transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.35s; }
+.reveal-delay-4 { transition-delay: 0.5s; }
+
+/* Floating flames in hero */
+.hero-flame {
+position: absolute;
+pointer-events: none;
+}
+
+/* Smoke lines */
+.smoke-line {
+width: 1px;
+position: absolute;
+top: 0;
+background: linear-gradient(to bottom, transparent, rgba(212,147,58,0.08), transparent);
+animation: smokeFloat linear infinite;
+}
+@keyframes smokeFloat {
+0% { transform: translateY(-100%); }
+100% { transform: translateY(100vh); }
+}
+</style>
+
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+
+<nav id="navbar">
+  <a href="#" class="nav-logo">GEL<span>GÖR</span></a>
+  <ul class="nav-links">
+    <li><a href="#story">Hikayemiz</a></li>
+    <li><a href="#menu">Menü</a></li>
+    <li><a href="#locations">Şubeler</a></li>
+  </ul>
+  <a href="#reservation" class="nav-cta">Rezervasyon</a>
+</nav>
+
+<!-- HERO -->
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="flame-field" id="flameField"></div>
+
+  <!-- Vertical smoke lines -->
+
+  <div class="smoke-line" style="left:15%;height:200px;animation-duration:8s;animation-delay:0s;"></div>
+  <div class="smoke-line" style="left:35%;height:300px;animation-duration:12s;animation-delay:3s;"></div>
+  <div class="smoke-line" style="left:65%;height:250px;animation-duration:10s;animation-delay:1s;"></div>
+  <div class="smoke-line" style="left:82%;height:180px;animation-duration:9s;animation-delay:5s;"></div>
+
+  <div style="position:relative;z-index:2;">
+    <p class="hero-eyebrow">İstanbul · Erzurum · 1982'den Beri</p>
+    <h1 class="hero-title">
+      Cağ Kebap<br>
+      <em>Ustadan.</em>
+    </h1>
+    <p class="hero-sub">Şakir (Usta) Aktaş'ın 1982'de başlattığı lezzet geleneği. Otantik Erzurum cağ kebabı, İstanbul'un kalbinde.</p>
+    <div class="hero-actions">
+      <a href="#menu" class="btn-primary">Menüyü Gör</a>
+      <a href="#reservation" class="btn-outline">Masa Rezervasyonu →</a>
+    </div>
+  </div>
+
+  <div class="hero-year">1982</div>
+</section>
+
+<!-- DIVIDER -->
+
+<div class="divider">
+  <div class="divider-line"></div>
+  <div class="divider-icon">✦</div>
+  <div class="divider-line"></div>
+</div>
+
+<!-- STORY -->
+
+<section id="story">
+  <div>
+    <p class="story-label reveal">Bizim Hikayemiz</p>
+    <h2 class="story-title reveal reveal-delay-1">
+      Sağlık ve<br>
+      Lezzetin<br>
+      <em>Patenti.</em>
+    </h2>
+    <p class="story-text reveal reveal-delay-2">
+      Gel Gör Cağ Kebap, 1982 yılında Şakir Aktaş Usta'nın öncülüğünde kuruldu. Yıllar içinde Erzurum'un eşsiz cağ kebabını sadece Türkiye'ye değil, tüm dünyaya tanıtmanın haklı gururunu yaşıyoruz.
+    </p>
+    <p class="story-text reveal reveal-delay-3">
+      Temizlik, kalite, hizmet ve güleryüz — bu dört değer her tabakta, her misafirde kendini gösterir. Gel Gör Cağ Kebabı'nın patent sahibiyiz.
+    </p>
+    <div class="story-stats reveal reveal-delay-4">
+      <div>
+        <div class="stat-num">1982</div>
+        <div class="stat-label">Kuruluş Yılı</div>
+      </div>
+      <div>
+        <div class="stat-num">40+</div>
+        <div class="stat-label">Yıllık Deneyim</div>
+      </div>
+      <div>
+        <div class="stat-num">2</div>
+        <div class="stat-label">Aktif Şube</div>
+      </div>
+      <div>
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Mutlu Misafir</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Visual -->
+
+  <div class="story-visual reveal">
+    <div class="visual-card visual-card-main">
+      <!-- Cağ Kebap SVG illustration -->
+      <svg width="280" height="320" viewBox="0 0 280 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background glow -->
+        <ellipse cx="140" cy="200" rx="90" ry="80" fill="rgba(201,66,15,0.07)"/>
+
+```
+    <!-- Horizontal spit / cağ -->
+    <rect x="10" y="155" width="260" height="12" rx="6" fill="url(#spitGrad)"/>
+    <!-- Spit handle left -->
+    <rect x="2" y="150" width="18" height="22" rx="4" fill="#8B6914"/>
+    <!-- Spit handle right -->
+    <rect x="260" y="150" width="18" height="22" rx="4" fill="#8B6914"/>
+    
+    <!-- Meat stack on spit -->
+    <ellipse cx="140" cy="161" rx="65" ry="38" fill="url(#meatGrad)"/>
+    <!-- Meat layers texture lines -->
+    <ellipse cx="140" cy="161" rx="65" ry="38" fill="none" stroke="rgba(180,80,15,0.3)" stroke-width="2"/>
+    <ellipse cx="140" cy="161" rx="52" ry="29" fill="rgba(160,60,10,0.2)"/>
+    <ellipse cx="140" cy="161" rx="38" ry="20" fill="rgba(140,45,8,0.2)"/>
+
+    <!-- Carved side of meat (vertical face) -->
+    <rect x="75" y="122" width="130" height="78" rx="8" fill="url(#carvedGrad)"/>
+    <!-- Char marks -->
+    <line x1="90" y1="130" x2="90" y2="192" stroke="rgba(50,20,5,0.4)" stroke-width="3" stroke-dasharray="4 6"/>
+    <line x1="115" y1="125" x2="115" y2="195" stroke="rgba(50,20,5,0.3)" stroke-width="2" stroke-dasharray="3 8"/>
+    <line x1="140" y1="122" x2="140" y2="200" stroke="rgba(50,20,5,0.35)" stroke-width="3" stroke-dasharray="5 5"/>
+    <line x1="165" y1="125" x2="165" y2="195" stroke="rgba(50,20,5,0.3)" stroke-width="2" stroke-dasharray="3 8"/>
+    <line x1="190" y1="130" x2="190" y2="192" stroke="rgba(50,20,5,0.4)" stroke-width="3" stroke-dasharray="4 6"/>
+
+    <!-- Flame effect at bottom of meat -->
+    <ellipse cx="140" cy="200" rx="60" ry="10" fill="rgba(201,66,15,0.12)"/>
+    
+    <!-- Flame 1 -->
+    <path d="M110 200 Q105 180 115 165 Q118 185 125 175 Q120 200 110 200Z" fill="url(#flameGrad1)" opacity="0.85"/>
+    <!-- Flame 2 -->
+    <path d="M135 200 Q128 170 140 150 Q145 175 150 160 Q148 195 135 200Z" fill="url(#flameGrad2)" opacity="0.9">
+      <animateTransform attributeName="transform" type="scale" values="1,1;1.02,0.98;1,1" dur="1.2s" repeatCount="indefinite" additive="sum" transformOrigin="140 200"/>
+    </path>
+    <!-- Flame 3 -->
+    <path d="M160 200 Q158 183 168 170 Q170 188 177 178 Q175 200 160 200Z" fill="url(#flameGrad1)" opacity="0.8"/>
+
+    <!-- Vertical skewers poking out -->
+    <rect x="100" y="105" width="5" height="55" rx="2" fill="url(#skewGrad)"/>
+    <rect x="137" y="95" width="5" height="65" rx="2" fill="url(#skewGrad)"/>
+    <rect x="174" y="105" width="5" height="55" rx="2" fill="url(#skewGrad)"/>
+
+    <!-- Title text -->
+    <text x="140" y="270" text-anchor="middle" font-family="'Playfair Display', serif" font-size="13" font-weight="700" fill="rgba(212,147,58,0.8)" letter-spacing="3">CAĞ KEBAP</text>
+    <text x="140" y="290" text-anchor="middle" font-family="monospace" font-size="8" fill="rgba(139,115,85,0.5)" letter-spacing="5">ERZURUM USULü</text>
+
+    <defs>
+      <linearGradient id="spitGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#5A4020"/>
+        <stop offset="50%" stop-color="#C8902A"/>
+        <stop offset="100%" stop-color="#5A4020"/>
+      </linearGradient>
+      <linearGradient id="meatGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#8B3510"/>
+        <stop offset="100%" stop-color="#5C1E05"/>
+      </linearGradient>
+      <linearGradient id="carvedGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#A03A10"/>
+        <stop offset="40%" stop-color="#C4520C"/>
+        <stop offset="100%" stop-color="#7A2A06"/>
+      </linearGradient>
+      <linearGradient id="flameGrad1" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0%" stop-color="#C9420F"/>
+        <stop offset="60%" stop-color="#E87020"/>
+        <stop offset="100%" stop-color="#FAC030" stop-opacity="0.3"/>
+      </linearGradient>
+      <linearGradient id="flameGrad2" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0%" stop-color="#C9420F"/>
+        <stop offset="50%" stop-color="#F08020"/>
+        <stop offset="100%" stop-color="#FFD040" stop-opacity="0.2"/>
+      </linearGradient>
+      <linearGradient id="skewGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#888"/>
+        <stop offset="50%" stop-color="#ddd"/>
+        <stop offset="100%" stop-color="#888"/>
+      </linearGradient>
+    </defs>
+  </svg>
+</div>
+<div class="visual-card visual-card-accent">
+  <p class="accent-quote">"En iyi cağ kebabını arıyorsan, aradığın yerdeyiz."</p>
+  <p class="accent-author">— Gelgör, 1982</p>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- MENU -->
+
+<section id="menu">
+  <div class="section-header reveal">
+    <p class="label">Lezzetlerimiz</p>
+    <h2>Menümüz</h2>
+  </div>
+
+  <div class="menu-grid">
+    <div class="menu-item reveal reveal-delay-1">
+      <p class="item-num">01</p>
+      <h3 class="item-name">Cağ Kebap<br><em style="font-size:0.85rem;color:var(--smoke)">Normal</em></h3>
+      <p class="item-desc">Geleneksel Erzurum usulü hazırlanan, yatay şişte pişirilen eşsiz kebabımız. Orta yağlılıkta.</p>
+      <div class="item-price">₺270 <span>/ adet</span></div>
+    </div>
+    <div class="menu-item reveal reveal-delay-2">
+      <p class="item-num">02</p>
+      <h3 class="item-name">Cağ Kebap<br><em style="font-size:0.85rem;color:var(--smoke)">Yağsız</em></h3>
+      <p class="item-desc">Sağlık bilinciyle tercih edenler için yağsız seçeneğimiz. Aynı lezzet, daha hafif.</p>
+      <div class="item-price">₺290 <span>/ adet</span></div>
+    </div>
+    <div class="menu-item reveal reveal-delay-3">
+      <p class="item-num">03</p>
+      <h3 class="item-name">Cağ Kebap<br><em style="font-size:0.85rem;color:var(--smoke)">Yağlı</em></h3>
+      <p class="item-desc">Daha zengin aromalar için yağlı seçeneğimiz. Asıl Erzurum tadı arayanlar için.</p>
+      <div class="item-price">₺270 <span>/ adet</span></div>
+    </div>
+    <div class="menu-item featured reveal">
+      <div>
+        <span class="featured-badge">Özel Lezzet</span>
+        <p class="item-num">04</p>
+        <h3 class="item-name" style="font-size:2rem;">Kadayıf Dolması</h3>
+      </div>
+      <p class="item-desc" style="font-size:1.05rem;">Erzurum'un gözbebeği tatlısı. Cevizli kadayıfın muhteşem lezzeti, her lokmada bir tarih.</p>
+      <div class="item-price" style="font-size:2.2rem;">₺700 <span>/ kg</span></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:3.5rem;" class="reveal">
+    <p style="font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.2em;color:var(--smoke);text-transform:uppercase;margin-bottom:0.6rem;">Online Sipariş İçin</p>
+    <a href="tel:44418700" style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--gold);text-decoration:none;letter-spacing:0.05em;">444 1 870</a>
+  </div>
+</section>
+
+<!-- LOCATIONS -->
+
+<section id="locations">
+  <div class="section-header reveal">
+    <p class="label">Neredeyiz</p>
+    <h2>Şubelerimiz</h2>
+  </div>
+
+  <div class="locations-grid">
+    <div class="location-card reveal reveal-delay-1">
+      <span class="loc-main-badge">İstanbul Şubesi</span>
+      <p class="loc-tag">Ataşehir · İstanbul</p>
+      <h3 class="loc-name">Watergarden AVM</h3>
+      <p class="loc-address">
+        Barbaros Mah. Ahlat Sokak No:2<br>
+        Watergarden AVM, 34746<br>
+        Ataşehir, İstanbul
+      </p>
+      <div class="loc-hours">
+        <div class="loc-hours-row">
+          <span>Pazartesi – Pazar</span>
+          <span class="time">10:00 – 22:00</span>
+        </div>
+      </div>
+      <p class="loc-phone">0 (216) 766 18 25</p>
+      <a href="https://www.google.com.tr/maps/place/Gel+G%C3%B6r+Ca%C4%9F+Kebap+Watergarden+Gelg%C3%B6r" target="_blank" class="loc-map-btn">
+        Haritada Gör →
+      </a>
+    </div>
+
+```
+<div class="location-card reveal reveal-delay-2">
+  <p class="loc-tag">Yenimahalle · Erzurum</p>
+  <h3 class="loc-name">Terminal Şubesi</h3>
+  <p class="loc-address">
+    1. Terminal Cad.<br>
+    Akgün Sitesi 3. Blok No:37<br>
+    Yenimahalle, Erzurum
+  </p>
+  <div class="loc-hours">
+    <div class="loc-hours-row">
+      <span>Pazartesi – Pazar</span>
+      <span class="time">10:00 – 22:00</span>
+    </div>
+  </div>
+  <p class="loc-phone">0 (442) 234 21 22</p>
+  <a href="https://www.google.com.tr/maps/place/Gel+G%C3%B6r+Ca%C4%9F+Kebap+Terminal+Gelg%C3%B6r" target="_blank" class="loc-map-btn">
+    Haritada Gör →
+  </a>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- RESERVATION -->
+
+<section id="reservation">
+  <p class="res-label reveal">Masa Ayırtın</p>
+  <h2 class="res-title reveal reveal-delay-1">
+    Lezzet Sizi<br>
+    <em>Bekliyor.</em>
+  </h2>
+  <p class="res-sub reveal reveal-delay-2">Watergarden AVM şubemizde masanızı önceden ayırtın, sizi bekliyoruz.</p>
+
+  <form class="res-form reveal reveal-delay-3" onsubmit="handleReservation(event)">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Ad Soyad</label>
+        <input type="text" placeholder="Adınız Soyadınız">
+      </div>
+      <div class="form-group">
+        <label>Telefon</label>
+        <input type="tel" placeholder="05XX XXX XX XX">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Tarih</label>
+        <input type="date">
+      </div>
+      <div class="form-group">
+        <label>Saat</label>
+        <input type="time" min="10:00" max="21:00">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Kişi Sayısı</label>
+      <select>
+        <option>1–2 Kişi</option>
+        <option>3–4 Kişi</option>
+        <option>5–6 Kişi</option>
+        <option>7–10 Kişi</option>
+        <option>10+ Kişi (Grup)</option>
+      </select>
+    </div>
+    <button type="submit" class="btn-submit">Rezervasyon Yap</button>
+  </form>
+
+  <div class="hotline reveal">
+    <span>Telefon ile rezervasyon:</span>
+    <a href="tel:44418700">444 1 870</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <div>
+    <div class="footer-brand">GEL<span>GÖR</span> CAĞ KEBAP</div>
+    <div class="footer-sub">İstanbul · Erzurum · 1982'den Beri</div>
+  </div>
+  <div class="footer-social">
+    <a href="https://www.instagram.com/gelgorcagkebapistanbul/" target="_blank">Instagram</a>
+    <a href="https://gelgorcagkebap.com.tr" target="_blank">Web Sitesi</a>
+    <a href="tel:44418700">444 1 870</a>
+  </div>
+  <div class="footer-copy">© 2025 Gelgör Cağ Kebap. Tüm Hakları Saklıdır.</div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const cursorRing = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.transform = `translate(${mouseX - 6}px, ${mouseY - 6}px)`;
+  });
+
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    cursorRing.style.transform = `translate(${ringX - 18}px, ${ringY - 18}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .menu-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursorRing.style.width = '56px';
+      cursorRing.style.height = '56px';
+      cursorRing.style.borderColor = 'rgba(201,66,15,0.8)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursorRing.style.width = '36px';
+      cursorRing.style.height = '36px';
+      cursorRing.style.borderColor = 'rgba(201,66,15,0.5)';
+    });
+  });
+
+  // Navbar scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+  });
+
+  // Flame particles
+  const flameField = document.getElementById('flameField');
+  for (let i = 0; i < 30; i++) {
+    const spark = document.createElement('div');
+    spark.className = 'spark';
+    const x = Math.random() * 100;
+    const size = Math.random() * 3 + 1;
+    const dur = Math.random() * 8 + 4;
+    const delay = Math.random() * 10;
+    const drift = (Math.random() - 0.5) * 100 + 'px';
+    const hue = Math.random() > 0.5 ? '#C9420F' : '#D4933A';
+    spark.style.cssText = `
+      left: ${x}%; bottom: 10%;
+      width: ${size}px; height: ${size * 3}px;
+      background: ${hue};
+      --drift: ${drift};
+      animation-duration: ${dur}s;
+      animation-delay: ${delay}s;
+    `;
+    flameField.appendChild(spark);
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Reservation handler
+  function handleReservation(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-submit');
+    btn.textContent = 'Rezervasyon Alındı ✓';
+    btn.style.background = '#2E7D32';
+    setTimeout(() => {
+      btn.textContent = 'Rezervasyon Yap';
+      btn.style.background = '';
+      e.target.reset();
+    }, 3000);
+  }
+</script>
+
+</body>
+</html>
